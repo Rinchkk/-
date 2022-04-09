@@ -1,0 +1,42 @@
+class Queue:
+    def __init__(self):
+        self.queue = []
+        self.tail = 0
+        self.head = 0
+    def size(self):
+        size = self.tail - self.head
+        return size
+    def get(self):
+        if self.head < self.tail:
+            self.head += 1
+            return self.queue[self.head - 1]
+        else:
+            return "error"
+    def put(self, elem):
+        self.tail += 1
+        self.queue.append(elem)
+
+def main():
+    n = int(input())
+    queue = Queue()
+    for i in range(n):
+        s = input()
+        if s == "get":
+            try:
+                print(queue.get())
+            except AssertionError:
+                print("error")
+        elif s == "size":
+            try:
+                print(queue.size())
+            except AssertionError:
+                print("error")
+        else:
+            try:
+                queue.put(int(s[s.find(' '):]))
+            except AssertionError:
+                print("error")
+
+
+if __name__ == '__main__':
+    main()
