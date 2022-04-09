@@ -1,0 +1,40 @@
+class StackMaxEffective:
+    def __init__(self):
+        self.items = []
+        self.curr_max = []
+
+    def push(self, item):
+        self.items.append(item)
+        if len(self.curr_max) == 0:
+            self.curr_max.append(item)
+        else:
+            if self.curr_max[-1] <= item:
+                self.curr_max.append(item)
+
+    def pop(self):
+        if len(self.items) == 0:
+            print("error")
+        else:
+            if self.items.pop() == self.curr_max[-1]:
+                self.curr_max.pop()
+
+    def get_max(self):
+        if len(self.items) == 0:
+            print("None")
+        else:
+            print(self.curr_max[-1])
+
+def main():
+    n = int(input())
+    stack = StackMaxEffective()
+    for i in range(n):
+        s = input()
+        if (s == "pop"):
+            stack.pop()
+        elif (s == "get_max"):
+            stack.get_max()
+        else:
+            stack.push(int(s[s.find(' ') + 1:]))
+
+if __name__ == '__main__':
+    main()
