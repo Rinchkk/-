@@ -1,0 +1,59 @@
+class HashTable:
+    def __init__(self, max_size):
+        self.stack = []
+        for i in range(max_size):
+            self.stack.append([[-1, -1]])
+        self.max_size = max_size
+
+    def search_index(self, index):
+        for i in range(len(self.stack[index % self.max_size])):
+            inner_arr = self.stack[index % self.max_size][i]
+            if inner_arr[0] == index:
+                return [i, inner_arr[1]]
+        return [-1, -1]
+
+    def delete(self, index):
+        arr = self.search_index(index)
+        i, num = arr[0], arr[1]
+        if num != -1:
+            self.stack[index % self.max_size][i] = [-1, -1]
+            return num
+
+    def put(self, index, val):
+        i = (self.search_index(index))[0]
+        if i != -1:
+            self.stack[index % self.max_size][i] = [index, val]
+        else:
+            self.stack[index % self.max_size].append([index, val])
+
+    def get(self, index):
+        for inner_arr in self.stack[index % self.max_size]:
+            if inner_arr[0] == index:
+                return inner_arr[1]
+
+def main():
+    max_size = 10 ** 5
+    n = int(input())
+    hash_table = HashTable(max_size)
+    for i in range(n):
+        s = input()
+        if s.count(' ') == 1:
+            command, arg1 = s.split()
+            arg2 = 0
+        else:
+            command, arg1, arg2 = s.split()
+        if command == "get":
+            try:
+                print(hash_table.get(int(arg1)))
+            except AssertionError:
+                print("None")
+        elif command == "delete":
+            try:
+                print(hash_table.delete(int(arg1)))
+            except AssertionError:
+                print("None")
+        else:
+            hash_table.put(int(arg1), int(arg2))
+
+if __name__ == '__main__':
+    main()
